@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const db = require('../../data/dbConfig')
+const bcrypt = require('bcrypt')
+const {validateRegistrationBody} = require('../middleware/validateRegistration')
 
-router.post('/register', (req, res) => {
+router.post('/register', validateRegistrationBody, (req, res, next) => {
   // res.end('implement register, please!');
   /*
     IMPLEMENT
@@ -28,10 +30,11 @@ router.post('/register', (req, res) => {
     4- On FAILED registration due to the `username` being taken,
       the response body should include a string exactly as follows: "username taken".
   */
+  
 })
 
 router.post('/login', (req, res) => {
-  res.end('implement login, please!')
+  // res.end('implement login, please!')
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
