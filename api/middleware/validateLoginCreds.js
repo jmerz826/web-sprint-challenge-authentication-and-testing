@@ -12,7 +12,7 @@ async function validateLoginCreds(req, res, next) {
     if (!usernameExists) {
         next({status: 400, message: 'invalid credentials'})
     } else {
-        console.log(usernameExists)
+        req.user = {username, password}
         next()
     }
 }
