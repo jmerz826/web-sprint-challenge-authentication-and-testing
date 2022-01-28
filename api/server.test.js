@@ -67,3 +67,38 @@ describe('ENDPOINT /api/auth/register', () => {
   })
 })
 
+describe('ENDPOINT /api/auth/login', () => {
+  it('can log in successfully', async () => {
+    await request(server)
+      .post('/api/auth/register')
+      .send({ username: 'xyz', password: '123456' })
+    
+    const res = await request(server)
+      .post('/api/auth/login')
+      .send({username: 'xyz', password: '123456' })
+    expect(res.body.message).toBe('welcome, xyz')
+  })
+  it('requires username and password to attempt login', async () => {
+    // case: no password
+    const res1 = await request(server)
+      .post('/api/auth/login')
+      .send({ username: 'xyz' })
+    expect(res1.body).toBe('username and password required')
+
+    // case: no username
+    const res2 = await request(server)
+      .post('/api/auth/login')
+      .send({ password: '123456' })
+    expect(res2.body).toBe('username and password required')
+  })
+  it('verifies that password is correct', async () => {
+    await request(server)
+      .post('/api/auth/register')
+      .send({ username: 'xyz', password: '123456' })
+    
+    const res = await request(server)
+      .post('/api/auth/login')
+      .send({username: 'xyz', password: '654321' })
+    expect(res.body).toBe('invalid credentials')
+  })
+})
