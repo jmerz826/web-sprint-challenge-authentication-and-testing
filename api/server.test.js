@@ -1,6 +1,7 @@
 const server = require('./server')
 const request = require('supertest')
 const db = require('../data/dbConfig')
+const tokenBuilder = require('./auth/auth-token-builder')
 
 // Write your tests here
 test('sanity', () => {
@@ -25,7 +26,9 @@ describe('Jokes are restricted', () => {
     expect(res.body).toBe('token required')
   })
   it('GET /api/jokes/ is successful if logged in', async () => {
-    
+    const token = await tokenBuilder({ user: 'test' })
+    const res = await request(server).get('/api/jokes').set("Authorization", token)
+    expect(res.body).toHaveLength(3)
   })
 })
 
