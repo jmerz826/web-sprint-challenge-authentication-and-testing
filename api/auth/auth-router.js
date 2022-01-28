@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const router = require('express').Router()
+const db = require('../../data/dbConfig')
 
 router.post('/register', (req, res) => {
   // res.end('implement register, please!');
@@ -27,10 +28,10 @@ router.post('/register', (req, res) => {
     4- On FAILED registration due to the `username` being taken,
       the response body should include a string exactly as follows: "username taken".
   */
-});
+})
 
 router.post('/login', (req, res) => {
-  res.end('implement login, please!');
+  res.end('implement login, please!')
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -54,6 +55,6 @@ router.post('/login', (req, res) => {
     4- On FAILED login due to `username` not existing in the db, or `password` being incorrect,
       the response body should include a string exactly as follows: "invalid credentials".
   */
-});
+})
 
-module.exports = router;
+module.exports = router
