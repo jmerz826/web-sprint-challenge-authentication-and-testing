@@ -39,7 +39,9 @@ router.post('/register', validateRegistrationBody, async (req, res, next) => {
     .then(newUser => {
       res.status(201).json(newUser)
     })
-    .catch(err => next(err))
+    .catch(err => {
+      next(err)
+    })
 
 })
 

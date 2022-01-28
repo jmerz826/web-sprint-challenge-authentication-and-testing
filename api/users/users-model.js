@@ -5,11 +5,11 @@ function getBy(filter) {
 }
 
 function getById(id) {
-    return db('users').where({id}).first()
+    return db('users').where('id', id).first()
 }
 
 async function add(user) {
-    const [id] = await db.insert(user)
+    const [id] = await db('users').insert(user)
     return getById(id)
 }
 
