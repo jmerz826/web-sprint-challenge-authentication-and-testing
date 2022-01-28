@@ -4,7 +4,6 @@ async function validateRegistrationBody(req, res, next) {
     let { username, password } = req.body 
     username = username?.trim()
     password = password?.trim()
-    console.log(password)
     try {
         if (!username || !password || username === undefined|| password === undefined) {
             return next({status: 400, message: 'username and password required'})
