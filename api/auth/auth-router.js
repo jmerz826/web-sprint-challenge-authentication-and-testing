@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const db = require('../../data/dbConfig')
 const bcrypt = require('bcrypt')
-const {validateRegistrationBody} = require('../middleware/validateRegistration')
+const { validateRegistrationBody } = require('../middleware/validateRegistration')
+const User = require('../users/users-model')
 
-router.post('/register', validateRegistrationBody, (req, res, next) => {
+router.post('/register', validateRegistrationBody, async (req, res, next) => {
   // res.end('implement register, please!');
   /*
     IMPLEMENT
@@ -30,7 +30,17 @@ router.post('/register', validateRegistrationBody, (req, res, next) => {
     4- On FAILED registration due to the `username` being taken,
       the response body should include a string exactly as follows: "username taken".
   */
+  let user = req.user
   
+  const hash = bcrypt.hashSync(user.password, 8)
+  user.password = hash
+
+  User.add(user)
+    .then(newUser => {
+      res.status(201).json(newUser)
+    })
+    .catch(err => next(err))
+
 })
 
 router.post('/login', (req, res) => {
