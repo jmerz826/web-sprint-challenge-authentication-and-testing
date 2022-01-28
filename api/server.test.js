@@ -19,17 +19,16 @@ afterAll(async () => {
   await db.destroy()
 })
 
-describe('Jokes are restricted', () => {
-  it('GET /api/jokes/ returns error if not logged in', async () => {
+describe('ENDPOINT /api/jokes', () => {
+  it('GET returns error if not logged in', async () => {
     const res = await request(server).get('/api/jokes')
     expect(res.status).toBe(401)
     expect(res.body).toBe('token required')
   })
-  it('GET /api/jokes/ is successful if logged in', async () => {
+  it('GET is successful if logged in', async () => {
     const token = await tokenBuilder({ user: 'test' })
     const res = await request(server).get('/api/jokes').set("Authorization", token)
     expect(res.body).toHaveLength(3)
   })
 })
 
-// { 'username': 'jerry', 'password': '123456' }
