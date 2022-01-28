@@ -41,10 +41,29 @@ describe('ENDPOINT /api/auth/register', () => {
     
     // return newly added user
     expect(res.body.username).toBe('xyz')
-    
+
     // new user actually added to db
     const users = await db('users')
     expect(users.length).toBe(5)
+  })
+  it('returns "username and password required" if not provided', async () => {
+    // case: no password
+    const res1 = await request(server)
+      .post('/api/auth/register')
+      .send({ username: 'xyz' })
+    expect(res1.body).toBe('username and password required')
+
+    // case: no username
+    const res2 = await request(server)
+      .post('/api/auth/register')
+      .send({ password: '123456' })
+    expect(res2.body).toBe('username and password required')
+  })
+  it('returns "username taken" if username is taken', async () => {
+    const res = await request(server)
+      .post('/api/auth/register')
+      .send({ username: 'jerry', password: '123412435345' })
+    expect(res.body).toBe('username taken')
   })
 })
 
