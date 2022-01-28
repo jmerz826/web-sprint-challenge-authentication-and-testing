@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const { validateRegistrationBody } = require('../middleware/validateRegistration')
+const {validateLoginCreds} = require('../middleware/validateLoginCreds')
 const User = require('../users/users-model')
 
 router.post('/register', validateRegistrationBody, async (req, res, next) => {
@@ -45,7 +46,7 @@ router.post('/register', validateRegistrationBody, async (req, res, next) => {
 
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', validateLoginCreds, (req, res, next) => {
   // res.end('implement login, please!')
   /*
     IMPLEMENT
@@ -70,6 +71,7 @@ router.post('/login', (req, res) => {
     4- On FAILED login due to `username` not existing in the db, or `password` being incorrect,
       the response body should include a string exactly as follows: "invalid credentials".
   */
+  res.status(200).json({message: 'here!!'})
 })
 
 module.exports = router
